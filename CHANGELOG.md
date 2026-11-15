@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+
+- Format remaining time with localized full unit names, such as `3 days, 23 hours remaining`.
+
 ## 0.1.7
 
 - Preserve one decimal place when calculated consumption is displayed in kilowatts.

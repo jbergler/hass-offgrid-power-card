@@ -76,6 +76,7 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 - Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
 - Calculated consumption uses whole watts below 1 kW and one decimal place in kW.
+- Remaining time uses localized full unit names such as `3 days, 23 hours remaining`.
 - Flow pulses use a constant segment length; spacing represents power relative to `max_power`.
 - Static arrowheads preserve direction when reduced-motion preferences disable animation.
 - Optional details are progressively hidden in very narrow containers.

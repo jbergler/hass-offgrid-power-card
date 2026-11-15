@@ -8,6 +8,19 @@ function number(
   }).format(value);
 }
 
+function formatUnit(
+  value: number,
+  locale: string,
+  unit: "day" | "hour" | "minute",
+): string {
+  return new Intl.NumberFormat(locale, {
+    style: "unit",
+    unit,
+    unitDisplay: "long",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 export function formatPower(
   watts: number | null,
   locale: string,
@@ -43,7 +56,7 @@ export function formatDuration(seconds: number | null, locale: string): string {
 
   const totalMinutes = Math.max(0, Math.round(seconds / 60));
   if (totalMinutes < 60) {
-    return `${number(totalMinutes, locale, 0)} min`;
+    return formatUnit(totalMinutes, locale, "minute");
   }
 
   const totalHours = Math.floor(totalMinutes / 60);
@@ -53,14 +66,14 @@ export function formatDuration(seconds: number | null, locale: string): string {
   const parts: string[] = [];
 
   if (days > 0) {
-    parts.push(`${number(days, locale, 0)} d`);
+    parts.push(formatUnit(days, locale, "day"));
   }
   if (hours > 0) {
-    parts.push(`${number(hours, locale, 0)} h`);
+    parts.push(formatUnit(hours, locale, "hour"));
   }
   if (minutes > 0 && days === 0) {
-    parts.push(`${number(minutes, locale, 0)} min`);
+    parts.push(formatUnit(minutes, locale, "minute"));
   }
 
-  return parts.join(" ") || "0 min";
+  return parts.join(", ") || formatUnit(0, locale, "minute");
 }
