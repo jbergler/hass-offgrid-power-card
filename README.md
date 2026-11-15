@@ -2,14 +2,27 @@
 
 A responsive Home Assistant dashboard card for a solar source, one battery, and calculated electrical consumption. It presents current power flow, battery state of charge, optional remaining time, and optional daily solar yield without querying history.
 
-## Install
+![Off-grid Power Card showing solar production, battery charging, and calculated load](images/offgrid-power-card.svg)
+
+## Install with HACS
+
+[![Open your Home Assistant instance and add this repository to HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=jbergler&repository=hass-offgrid-power-card&category=plugin)
+
+Until the card is included in the default HACS catalog, add it as a custom repository:
+
+1. Open **HACS → Dashboard**.
+2. Open the three-dot menu and select **Custom repositories**.
+3. Add `https://github.com/jbergler/hass-offgrid-power-card` with category **Dashboard**.
+4. Select **Off-grid Power Card**, choose **Download**, then reload Home Assistant in the browser.
+
+HACS installs and updates the card resource automatically from published GitHub releases.
+
+### Manual installation
 
 1. Run `npm install && npm run build`.
-2. Copy `dist/offgrid-power-card.js` to Home Assistant's `config/www/` directory.
-3. Add `/local/offgrid-power-card.js` as a JavaScript module under **Settings → Dashboards → Resources**.
+2. Copy `dist/hass-offgrid-power-card.js` to Home Assistant's `config/www/` directory.
+3. Add `/local/hass-offgrid-power-card.js` as a JavaScript module under **Settings → Dashboards → Resources**.
 4. Add the card with YAML configuration.
-
-This initial release is manually installed and YAML-only; it does not include HACS metadata or a visual editor.
 
 ## Configuration
 
@@ -75,3 +88,11 @@ npm run build
 ```
 
 The development page renders both wide and tall fixtures with mocked Home Assistant state.
+
+## Releasing
+
+1. Update the package version and changelog, then push the release commit to `main`.
+2. Wait for the **Validate** workflow, including HACS validation, to pass.
+3. Create and push a matching semantic-version tag such as `v0.1.0`.
+
+The **Release** workflow reruns tests, builds `dist/hass-offgrid-power-card.js`, and creates a published GitHub Release with that file attached for HACS.

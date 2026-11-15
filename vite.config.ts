@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: "src/offgrid-power-card.ts",
       formats: ["es"],
-      fileName: () => "offgrid-power-card.js",
+      fileName: () => "hass-offgrid-power-card.js",
     },
     rollupOptions: {
       output: {

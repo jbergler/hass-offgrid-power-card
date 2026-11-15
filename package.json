@@ -4,7 +4,7 @@
   "description": "A responsive Home Assistant card for off-grid solar, battery, and load power flows.",
   "type": "module",
   "files": [
-    "dist/offgrid-power-card.js"
+    "dist/hass-offgrid-power-card.js"
   ],
   "scripts": {
     "dev": "vite",

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add HACS metadata, validation, release automation, and installation instructions.
+- Publish the repository-matching `hass-offgrid-power-card.js` distribution artifact.
+
 ## 0.1.0
 
 - Add responsive solar, battery, power-bus, and calculated-load visualization.
