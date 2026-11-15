@@ -1,6 +1,6 @@
 {
   "name": "hass-offgrid-power-card",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A responsive Home Assistant card for off-grid solar, battery, and load power flows.",
   "type": "module",
   "files": [

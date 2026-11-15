@@ -83,7 +83,7 @@ export class OffgridPowerCard extends LitElement {
     const boundedSoc = soc === null ? 0 : Math.min(100, Math.max(0, soc));
 
     return html`
-      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"}>
+      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
         ${this.config.title
           ? html`<div class="title">${this.config.title}</div>`
           : nothing}
@@ -156,9 +156,9 @@ export class OffgridPowerCard extends LitElement {
           load: "M 52 36 L 78 36",
         }
       : {
-          solar: "M 62 18 L 62 46",
-          battery: "M 62 82 L 62 54",
-          load: "M 60 50 L 47 50",
+          solar: "M 38 18 L 38 46",
+          battery: "M 38 82 L 38 54",
+          load: "M 40 50 L 59 50",
         };
 
     return html`
@@ -213,6 +213,12 @@ export class OffgridPowerCard extends LitElement {
       box-sizing: border-box;
       overflow: hidden;
       background: var(--ha-card-background, var(--card-background-color));
+    }
+
+    ha-card[data-transparent="true"] {
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
 
     .title {
@@ -401,10 +407,10 @@ export class OffgridPowerCard extends LitElement {
     ha-card[data-layout="wide"] .load { left: 84%; top: 36%; }
     ha-card[data-layout="wide"] .battery { left: 50%; top: 78%; }
 
-    ha-card[data-layout="tall"] .solar { left: 62%; top: 13%; }
-    ha-card[data-layout="tall"] .bus { left: 62%; top: 50%; }
-    ha-card[data-layout="tall"] .load { left: 25%; top: 50%; }
-    ha-card[data-layout="tall"] .battery { left: 62%; top: 87%; }
+    ha-card[data-layout="tall"] .solar { left: 38%; top: 13%; }
+    ha-card[data-layout="tall"] .bus { left: 38%; top: 50%; }
+    ha-card[data-layout="tall"] .load { left: 75%; top: 50%; }
+    ha-card[data-layout="tall"] .battery { left: 38%; top: 87%; }
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }

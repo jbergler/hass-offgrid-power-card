@@ -17,6 +17,7 @@ export interface OffgridPowerCardConfig {
   solar_icon?: string;
   battery_icon?: string;
   load_icon?: string;
+  transparent?: boolean;
 }
 
 export interface NormalizedOffgridPowerCardConfig

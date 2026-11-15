@@ -37,6 +37,7 @@ battery_time_remaining_entity: sensor.rv_battery_time_remaining
 battery_power_positive: discharging
 flow_rate_threshold: 5
 max_power: 3000
+transparent: true
 ```
 
 | Key | Required | Default | Meaning |
@@ -50,6 +51,7 @@ max_power: 3000
 | `flow_rate_threshold` | No | `5` | Absolute power in watts below which animation stops |
 | `max_power` | No | `3000` | Power in watts represented by maximum pulse density |
 | `title` | No | Hidden | Optional card heading |
+| `transparent` | No | `false` | Remove the outer card background, border, and shadow while retaining the node boxes |
 | `solar_label`, `battery_label`, `load_label` | No | Solar, Battery, Load | Node labels |
 | `solar_icon`, `battery_icon`, `load_icon` | No | Matching MDI icons | Node icon overrides |
 

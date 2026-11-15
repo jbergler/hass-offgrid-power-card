@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Keep the load to the right of the power bus in portrait layouts.
+- Add the optional `transparent` outer-card style.
+
 ## 0.1.3
 
 - Default sections-dashboard cards to the full section width.
