@@ -11,17 +11,17 @@ function number(
 export function formatPower(
   watts: number | null,
   locale: string,
-  maximumFractionDigits?: number,
+  wattMaximumFractionDigits?: number,
 ): string {
   if (watts === null) {
     return "—";
   }
 
   if (Math.abs(watts) >= 1000) {
-    return `${number(watts / 1000, locale, maximumFractionDigits ?? 1)} kW`;
+    return `${number(watts / 1000, locale, 1)} kW`;
   }
 
-  return `${number(watts, locale, maximumFractionDigits ?? (Math.abs(watts) < 100 ? 1 : 0))} W`;
+  return `${number(watts, locale, wattMaximumFractionDigits ?? (Math.abs(watts) < 100 ? 1 : 0))} W`;
 }
 
 export function formatEnergy(wattHours: number | null, locale: string): string {

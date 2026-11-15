@@ -560,7 +560,7 @@ function Y(e, t, n) {
 	return new Intl.NumberFormat(t, { maximumFractionDigits: n }).format(e);
 }
 function we(e, t, n) {
-	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, n ?? 1)} kW` : `${Y(e, t, n ?? +(Math.abs(e) < 100))} W`;
+	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, 1)} kW` : `${Y(e, t, n ?? +(Math.abs(e) < 100))} W`;
 }
 function Te(e, t) {
 	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, 1)} kWh` : `${Y(e, t, +(Math.abs(e) < 100))} Wh`;

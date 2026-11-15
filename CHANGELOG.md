@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+
+- Preserve one decimal place when calculated consumption is displayed in kilowatts.
+
 ## 0.1.6
 
 - Round calculated consumption to zero decimal places.
