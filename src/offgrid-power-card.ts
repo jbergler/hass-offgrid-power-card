@@ -115,12 +115,10 @@ export class OffgridPowerCard extends LitElement {
                 system.battery.warning,
                 "Battery state of charge is outside 0–100%",
               )}
+              <strong class="soc-value">${soc === null ? "—" : `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(soc)}%`}</strong>
             </div>
-            <div class="soc-row">
-              <strong>${soc === null ? "—" : `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(soc)}%`}</strong>
-              <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${soc ?? nothing}>
-                <div class="battery-fill" style=${`width:${boundedSoc}%`}></div>
-              </div>
+            <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${soc ?? nothing}>
+              <div class="battery-fill" style=${`width:${boundedSoc}%`}></div>
             </div>
             <span class="secondary">${batteryPower}</span>
             ${this.config.battery_time_remaining_entity
@@ -338,8 +336,7 @@ export class OffgridPowerCard extends LitElement {
       gap: 7px;
     }
 
-    .node-heading,
-    .soc-row {
+    .node-heading {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -349,12 +346,9 @@ export class OffgridPowerCard extends LitElement {
       flex: 1;
     }
 
-    .soc-row strong {
-      min-width: 48px;
-    }
 
     .battery-bar {
-      flex: 1;
+      width: 100%;
       height: 8px;
       overflow: hidden;
       border-radius: 999px;

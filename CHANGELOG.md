@@ -1,12 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.1.1
 
-- Add HACS metadata, validation, release automation, and installation instructions.
-- Publish the repository-matching `hass-offgrid-power-card.js` distribution artifact.
+- Move battery state of charge into the heading and right-align it.
+- Expand the battery state-of-charge bar to the full content width.
 
 ## 0.1.0
 
+- Add HACS metadata, validation, release automation, and installation instructions.
+- Publish the repository-matching `hass-offgrid-power-card.js` distribution artifact.
 - Add responsive solar, battery, power-bus, and calculated-load visualization.
 - Add restrained directional flow pulses with reduced-motion support.
 - Add Home Assistant sensor unit normalization, unavailable states, and scoped warnings.

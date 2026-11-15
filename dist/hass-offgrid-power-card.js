@@ -732,12 +732,10 @@ var $ = class extends G {
               <ha-icon icon=${this.config.battery_icon ?? "mdi:battery"}></ha-icon>
               <span class="label">${this.config.battery_label ?? "Battery"}</span>
               ${this.warning(e.battery.warning, "Battery state of charge is outside 0–100%")}
+              <strong class="soc-value">${n === null ? "—" : `${new Intl.NumberFormat(t, { maximumFractionDigits: 0 }).format(n)}%`}</strong>
             </div>
-            <div class="soc-row">
-              <strong>${n === null ? "—" : `${new Intl.NumberFormat(t, { maximumFractionDigits: 0 }).format(n)}%`}</strong>
-              <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${n ?? I}>
-                <div class="battery-fill" style=${`width:${r}%`}></div>
-              </div>
+            <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${n ?? I}>
+              <div class="battery-fill" style=${`width:${r}%`}></div>
             </div>
             <span class="secondary">${i}</span>
             ${this.config.battery_time_remaining_entity ? P`<span class="secondary time">${Ee(e.battery.timeRemainingSeconds, t)} ${e.battery.mode === "charging" ? "until full" : "remaining"}</span>` : I}
@@ -931,8 +929,7 @@ var $ = class extends G {
       gap: 7px;
     }
 
-    .node-heading,
-    .soc-row {
+    .node-heading {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -942,12 +939,9 @@ var $ = class extends G {
       flex: 1;
     }
 
-    .soc-row strong {
-      min-width: 48px;
-    }
 
     .battery-bar {
-      flex: 1;
+      width: 100%;
       height: 8px;
       overflow: hidden;
       border-radius: 999px;
