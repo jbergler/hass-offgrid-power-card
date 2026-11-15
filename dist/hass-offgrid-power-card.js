@@ -253,7 +253,7 @@ var v = class extends HTMLElement {
 };
 v.elementStyles = [], v.shadowRootOptions = { mode: "open" }, v[m("elementProperties")] = /* @__PURE__ */ new Map(), v[m("finalized")] = /* @__PURE__ */ new Map(), ie?.({ ReactiveElement: v }), (f.reactiveElementVersions ??= []).push("2.1.2");
 // node_modules/lit-html/lit-html.js
-var y = globalThis, b = (e) => e, x = y.trustedTypes, ae = x ? x.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, S = "$lit$", C = `lit$${Math.random().toFixed(9).slice(2)}$`, w = "?" + C, oe = `<${w}>`, T = document, E = () => T.createComment(""), D = (e) => e === null || typeof e != "object" && typeof e != "function", O = Array.isArray, se = (e) => O(e) || typeof e?.[Symbol.iterator] == "function", k = "[ 	\n\f\r]", A = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ce = /-->/g, j = />/g, M = RegExp(`>|${k}(?:([^\\s"'>=/]+)(${k}*=${k}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), le = /'/g, ue = /"/g, N = /^(?:script|style|textarea|title)$/i, P = (e) => (t, ...n) => ({
+var y = globalThis, b = (e) => e, x = y.trustedTypes, ae = x ? x.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, S = "$lit$", C = `lit$${Math.random().toFixed(9).slice(2)}$`, w = "?" + C, oe = `<${w}>`, T = document, E = () => T.createComment(""), D = (e) => e === null || typeof e != "object" && typeof e != "function", O = Array.isArray, se = (e) => O(e) || typeof e?.[Symbol.iterator] == "function", k = "[ 	\n\f\r]", A = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, j = /-->/g, M = />/g, N = RegExp(`>|${k}(?:([^\\s"'>=/]+)(${k}*=${k}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ce = /'/g, le = /"/g, ue = /^(?:script|style|textarea|title)$/i, P = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
@@ -266,8 +266,8 @@ var fe = (e, t) => {
 	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = A;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === A ? c[1] === "!--" ? o = ce : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = M) : (N.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = M) : o = j : o === M ? c[0] === ">" ? (o = i ?? A, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? M : c[3] === "\"" ? ue : le) : o === ue || o === le ? o = M : o === ce || o === j ? o = A : (o = M, i = void 0);
-		let d = o === M && e[t + 1].startsWith("/>") ? " " : "";
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === A ? c[1] === "!--" ? o = j : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = N) : (ue.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = N) : o = M : o === N ? c[0] === ">" ? (o = i ?? A, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? N : c[3] === "\"" ? le : ce) : o === le || o === ce ? o = N : o === j || o === M ? o = A : (o = N, i = void 0);
+		let d = o === N && e[t + 1].startsWith("/>") ? " " : "";
 		a += o === A ? n + oe : l >= 0 ? (r.push(s), n.slice(0, l) + S + n.slice(l) + C + d) : n + C + (l === -2 ? t : d);
 	}
 	return [B(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
@@ -295,7 +295,7 @@ var fe = (e, t) => {
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (N.test(i.tagName)) {
+				if (ue.test(i.tagName)) {
 					let e = i.textContent.split(C), t = e.length - 1;
 					if (t > 0) {
 						i.textContent = x ? x.emptyScript : "";
@@ -680,20 +680,20 @@ function Q(e, t, n, r) {
 // src/offgrid-power-card.ts
 var $ = class extends K {
 	constructor(...e) {
-		super(...e), this.wide = !1;
+		super(...e), this.wide = !1, this.compact = !1;
 	}
 	setConfig(e) {
 		this.config = De(e);
 	}
 	getCardSize() {
-		return 5;
+		return 4;
 	}
 	getGridOptions() {
 		return {
-			columns: 6,
-			min_columns: 4,
-			rows: 5,
-			min_rows: 4
+			columns: "full",
+			min_columns: 6,
+			rows: 4,
+			min_rows: 3
 		};
 	}
 	connectedCallback() {
@@ -701,6 +701,8 @@ var $ = class extends K {
 			if (!e) return;
 			let t = e.contentRect.width >= e.contentRect.height * 1.25;
 			t !== this.wide && (this.wide = t);
+			let n = e.contentRect.height <= 200;
+			n !== this.compact && (this.compact = n);
 		}), this.resizeObserver.observe(this);
 	}
 	disconnectedCallback() {
@@ -710,7 +712,7 @@ var $ = class extends K {
 		if (!this.config || !this.hass) return L;
 		let e = je(this.config, this.hass.states), t = this.hass.locale?.language ?? this.hass.language ?? navigator.language, n = e.battery.soc, r = n === null ? 0 : Math.min(100, Math.max(0, n));
 		return F`
-      <ha-card data-layout=${this.wide ? "wide" : "tall"}>
+      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"}>
         ${this.config.title ? F`<div class="title">${this.config.title}</div>` : L}
         <div class="diagram" aria-label="Off-grid electrical power flow">
           ${this.renderFlows(e.flows)}
@@ -797,7 +799,7 @@ var $ = class extends K {
     :host {
       display: block;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -805,7 +807,7 @@ var $ = class extends K {
     ha-card {
       display: block;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       box-sizing: border-box;
       overflow: hidden;
       background: var(--ha-card-background, var(--card-background-color));
@@ -820,13 +822,28 @@ var $ = class extends K {
     .diagram {
       position: relative;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       box-sizing: border-box;
     }
 
     .title + .diagram {
       height: calc(100% - 48px);
-      min-height: 200px;
+      min-height: 136px;
+    }
+
+    ha-card[data-compact="true"] .title,
+    ha-card[data-compact="true"] .secondary.time {
+      display: none;
+    }
+
+    ha-card[data-compact="true"] .title + .diagram {
+      height: 100%;
+      min-height: 184px;
+    }
+
+    ha-card[data-compact="true"] .battery {
+      gap: 5px;
+      padding-block: 8px;
     }
 
     .flows {
@@ -1007,7 +1024,7 @@ var $ = class extends K {
   `;
 	}
 };
-Q([q({ attribute: !1 })], $.prototype, "hass", void 0), Q([J()], $.prototype, "config", void 0), Q([J()], $.prototype, "wide", void 0), $ = Q([xe("offgrid-power-card")], $), window.customCards = window.customCards ?? [], window.customCards.some((e) => e.type === "offgrid-power-card") || window.customCards.push({
+Q([q({ attribute: !1 })], $.prototype, "hass", void 0), Q([J()], $.prototype, "config", void 0), Q([J()], $.prototype, "wide", void 0), Q([J()], $.prototype, "compact", void 0), $ = Q([xe("offgrid-power-card")], $), window.customCards = window.customCards ?? [], window.customCards.some((e) => e.type === "offgrid-power-card") || window.customCards.push({
 	type: "offgrid-power-card",
 	name: "Off-grid Power Card",
 	description: "Solar, battery, and calculated load power flows.",

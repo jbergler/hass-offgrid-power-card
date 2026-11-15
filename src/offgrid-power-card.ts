@@ -35,6 +35,7 @@ export class OffgridPowerCard extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @state() private config?: NormalizedOffgridPowerCardConfig;
   @state() private wide = false;
+  @state() private compact = false;
 
   private resizeObserver?: ResizeObserver;
 
@@ -43,15 +44,15 @@ export class OffgridPowerCard extends LitElement {
   }
 
   public getCardSize(): number {
-    return 5;
+    return 4;
   }
 
-  public getGridOptions(): Record<string, number> {
+  public getGridOptions(): Record<string, number | string> {
     return {
-      columns: 6,
-      min_columns: 4,
-      rows: 5,
-      min_rows: 4,
+      columns: "full",
+      min_columns: 6,
+      rows: 4,
+      min_rows: 3,
     };
   }
 
@@ -61,6 +62,8 @@ export class OffgridPowerCard extends LitElement {
       if (!entry) return;
       const nextWide = entry.contentRect.width >= entry.contentRect.height * 1.25;
       if (nextWide !== this.wide) this.wide = nextWide;
+      const nextCompact = entry.contentRect.height <= 200;
+      if (nextCompact !== this.compact) this.compact = nextCompact;
     });
     this.resizeObserver.observe(this);
   }
@@ -80,7 +83,7 @@ export class OffgridPowerCard extends LitElement {
     const boundedSoc = soc === null ? 0 : Math.min(100, Math.max(0, soc));
 
     return html`
-      <ha-card data-layout=${this.wide ? "wide" : "tall"}>
+      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"}>
         ${this.config.title
           ? html`<div class="title">${this.config.title}</div>`
           : nothing}
@@ -198,7 +201,7 @@ export class OffgridPowerCard extends LitElement {
     :host {
       display: block;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -206,7 +209,7 @@ export class OffgridPowerCard extends LitElement {
     ha-card {
       display: block;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       box-sizing: border-box;
       overflow: hidden;
       background: var(--ha-card-background, var(--card-background-color));
@@ -221,13 +224,28 @@ export class OffgridPowerCard extends LitElement {
     .diagram {
       position: relative;
       height: 100%;
-      min-height: 248px;
+      min-height: 184px;
       box-sizing: border-box;
     }
 
     .title + .diagram {
       height: calc(100% - 48px);
-      min-height: 200px;
+      min-height: 136px;
+    }
+
+    ha-card[data-compact="true"] .title,
+    ha-card[data-compact="true"] .secondary.time {
+      display: none;
+    }
+
+    ha-card[data-compact="true"] .title + .diagram {
+      height: 100%;
+      min-height: 184px;
+    }
+
+    ha-card[data-compact="true"] .battery {
+      gap: 5px;
+      padding-block: 8px;
     }
 
     .flows {

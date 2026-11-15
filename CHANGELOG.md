@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- Default sections-dashboard cards to the full section width.
+- Restore vertical grid resizing with a three-row minimum and compact rendering.
+
 ## 0.1.2
 
 - Remove the redundant battery charging/discharging detail line.
