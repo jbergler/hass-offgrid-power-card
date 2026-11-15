@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- Match the solar node hierarchy and width to the battery node.
+- Present solar power in the heading and daily yield on a full-width second row.
+- Keep flow pulse segments a constant physical length while varying their spacing with power.
+
 ## 0.1.4
 
 - Keep the load to the right of the power bus in portrait layouts.

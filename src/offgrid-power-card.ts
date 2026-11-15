@@ -91,15 +91,15 @@ export class OffgridPowerCard extends LitElement {
           ${this.renderFlows(system.flows)}
 
           <section class="node solar ${system.solar.warning ? "warning" : ""}">
-            <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
-            <div class="node-copy">
+            <div class="node-heading">
+              <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
               <span class="label">${this.config.solar_label ?? "Solar"}</span>
-              <strong>${formatPower(system.solar.watts, locale)}</strong>
-              ${this.config.solar_energy_today_entity
-                ? html`<span class="secondary">${formatEnergy(system.solar.energyTodayWh, locale)} today</span>`
-                : nothing}
+              ${this.warning(system.solar.warning, "Solar power is negative")}
+              <strong class="solar-value">${formatPower(system.solar.watts, locale)}</strong>
             </div>
-            ${this.warning(system.solar.warning, "Solar power is negative")}
+            ${this.config.solar_energy_today_entity
+              ? html`<span class="secondary solar-yield">${formatEnergy(system.solar.energyTodayWh, locale)} yield today</span>`
+              : nothing}
           </section>
 
           <div class="bus" aria-label="Power bus"></div>
@@ -182,15 +182,15 @@ export class OffgridPowerCard extends LitElement {
   ) {
     const active = flow.direction !== "stopped";
     const isReverse = reverseWhenFromBus && flow.direction === "from-bus";
-    const gap = 24 - flow.intensity * 12;
+    const gap = 22 - flow.intensity * 12;
+    const duration = (6 + gap) / 10;
 
     return svg`
       <path class="flow-base" d=${path}></path>
       <path
         class="flow-active ${active ? "active" : ""} ${isReverse ? "reverse" : ""}"
         d=${path}
-        pathLength="100"
-        style=${`--flow-gap:${gap}`}
+        style=${`--flow-gap:${gap}px;--flow-duration:${duration}s`}
         marker-start=${active && isReverse ? "url(#flow-arrow)" : nothing}
         marker-end=${active && !isReverse ? "url(#flow-arrow)" : nothing}
       ></path>
@@ -249,6 +249,7 @@ export class OffgridPowerCard extends LitElement {
       min-height: 184px;
     }
 
+    ha-card[data-compact="true"] .solar,
     ha-card[data-compact="true"] .battery {
       gap: 5px;
       padding-block: 8px;
@@ -278,13 +279,13 @@ export class OffgridPowerCard extends LitElement {
     .flow-active {
       stroke: var(--primary-color);
       stroke-width: 2.5;
-      stroke-dasharray: 4 var(--flow-gap);
+      stroke-dasharray: 6px var(--flow-gap);
       opacity: 0;
     }
 
     .flow-active.active {
       opacity: 0.72;
-      animation: flow-pulse 3.4s linear infinite;
+      animation: flow-pulse var(--flow-duration) linear infinite;
       transition: stroke-dasharray 500ms ease, opacity 300ms ease;
     }
 
@@ -298,7 +299,7 @@ export class OffgridPowerCard extends LitElement {
     }
 
     @keyframes flow-pulse {
-      to { stroke-dashoffset: -28; }
+      to { stroke-dashoffset: calc(-6px - var(--flow-gap)); }
     }
 
     .node {
@@ -324,6 +325,7 @@ export class OffgridPowerCard extends LitElement {
     }
 
     .node-copy,
+    .solar,
     .battery {
       flex-direction: column;
       align-items: stretch;
@@ -348,6 +350,7 @@ export class OffgridPowerCard extends LitElement {
       white-space: nowrap;
     }
 
+    .solar,
     .battery {
       width: 176px;
       gap: 7px;
@@ -414,14 +417,14 @@ export class OffgridPowerCard extends LitElement {
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
-      .battery { width: 150px; }
+      .solar, .battery { width: 150px; }
       .secondary.time { display: none; }
     }
 
     @container (max-width: 320px) {
       .title { display: none; }
       .node { min-width: 92px; }
-      .battery { width: 136px; }
+      .solar, .battery { width: 136px; }
       .solar .secondary { display: none; }
     }
 

@@ -718,13 +718,13 @@ var $ = class extends K {
           ${this.renderFlows(e.flows)}
 
           <section class="node solar ${e.solar.warning ? "warning" : ""}">
-            <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
-            <div class="node-copy">
+            <div class="node-heading">
+              <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
               <span class="label">${this.config.solar_label ?? "Solar"}</span>
-              <strong>${we(e.solar.watts, t)}</strong>
-              ${this.config.solar_energy_today_entity ? F`<span class="secondary">${Te(e.solar.energyTodayWh, t)} today</span>` : L}
+              ${this.warning(e.solar.warning, "Solar power is negative")}
+              <strong class="solar-value">${we(e.solar.watts, t)}</strong>
             </div>
-            ${this.warning(e.solar.warning, "Solar power is negative")}
+            ${this.config.solar_energy_today_entity ? F`<span class="secondary solar-yield">${Te(e.solar.energyTodayWh, t)} yield today</span>` : L}
           </section>
 
           <div class="bus" aria-label="Power bus"></div>
@@ -781,14 +781,13 @@ var $ = class extends K {
     `;
 	}
 	flowPath(e, t, n = !1) {
-		let r = t.direction !== "stopped", i = n && t.direction === "from-bus", a = 24 - t.intensity * 12;
+		let r = t.direction !== "stopped", i = n && t.direction === "from-bus", a = 22 - t.intensity * 12, o = (6 + a) / 10;
 		return de`
       <path class="flow-base" d=${e}></path>
       <path
         class="flow-active ${r ? "active" : ""} ${i ? "reverse" : ""}"
         d=${e}
-        pathLength="100"
-        style=${`--flow-gap:${a}`}
+        style=${`--flow-gap:${a}px;--flow-duration:${o}s`}
         marker-start=${r && i ? "url(#flow-arrow)" : L}
         marker-end=${r && !i ? "url(#flow-arrow)" : L}
       ></path>
@@ -847,6 +846,7 @@ var $ = class extends K {
       min-height: 184px;
     }
 
+    ha-card[data-compact="true"] .solar,
     ha-card[data-compact="true"] .battery {
       gap: 5px;
       padding-block: 8px;
@@ -876,13 +876,13 @@ var $ = class extends K {
     .flow-active {
       stroke: var(--primary-color);
       stroke-width: 2.5;
-      stroke-dasharray: 4 var(--flow-gap);
+      stroke-dasharray: 6px var(--flow-gap);
       opacity: 0;
     }
 
     .flow-active.active {
       opacity: 0.72;
-      animation: flow-pulse 3.4s linear infinite;
+      animation: flow-pulse var(--flow-duration) linear infinite;
       transition: stroke-dasharray 500ms ease, opacity 300ms ease;
     }
 
@@ -896,7 +896,7 @@ var $ = class extends K {
     }
 
     @keyframes flow-pulse {
-      to { stroke-dashoffset: -28; }
+      to { stroke-dashoffset: calc(-6px - var(--flow-gap)); }
     }
 
     .node {
@@ -922,6 +922,7 @@ var $ = class extends K {
     }
 
     .node-copy,
+    .solar,
     .battery {
       flex-direction: column;
       align-items: stretch;
@@ -946,6 +947,7 @@ var $ = class extends K {
       white-space: nowrap;
     }
 
+    .solar,
     .battery {
       width: 176px;
       gap: 7px;
@@ -1012,14 +1014,14 @@ var $ = class extends K {
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
-      .battery { width: 150px; }
+      .solar, .battery { width: 150px; }
       .secondary.time { display: none; }
     }
 
     @container (max-width: 320px) {
       .title { display: none; }
       .node { min-width: 92px; }
-      .battery { width: 136px; }
+      .solar, .battery { width: 136px; }
       .solar .secondary { display: none; }
     }
 

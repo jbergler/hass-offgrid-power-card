@@ -73,8 +73,9 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 
 - Wide containers place solar, bus, and load horizontally with the battery below the bus.
 - Tall containers place solar and battery vertically, with the load beside the bus.
+- Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
-- Pulses move slowly; density represents power relative to `max_power`.
+- Flow pulses use a constant segment length; spacing represents power relative to `max_power`.
 - Static arrowheads preserve direction when reduced-motion preferences disable animation.
 - Optional details are progressively hidden in very narrow containers.
 - Sections dashboards default to full width and can resize vertically down to three grid rows.
