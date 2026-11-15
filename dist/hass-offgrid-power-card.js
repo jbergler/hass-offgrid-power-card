@@ -559,8 +559,8 @@ function J(e) {
 function Y(e, t, n) {
 	return new Intl.NumberFormat(t, { maximumFractionDigits: n }).format(e);
 }
-function we(e, t) {
-	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, 1)} kW` : `${Y(e, t, +(Math.abs(e) < 100))} W`;
+function we(e, t, n) {
+	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, n ?? 1)} kW` : `${Y(e, t, n ?? +(Math.abs(e) < 100))} W`;
 }
 function Te(e, t) {
 	return e === null ? "—" : Math.abs(e) >= 1e3 ? `${Y(e / 1e3, t, 1)} kWh` : `${Y(e, t, +(Math.abs(e) < 100))} Wh`;
@@ -746,7 +746,7 @@ var $ = class extends K {
             <ha-icon icon=${this.config.load_icon ?? "mdi:home-lightning-bolt"}></ha-icon>
             <div class="node-copy">
               <span class="label">${this.config.load_label ?? "Load"}</span>
-              <strong>${we(e.load.watts, t)}</strong>
+              <strong>${we(e.load.watts, t, 0)}</strong>
             </div>
             ${this.warning(e.load.warning, "Calculated consumption is negative")}
           </section>

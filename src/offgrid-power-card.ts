@@ -126,7 +126,7 @@ export class OffgridPowerCard extends LitElement {
             <ha-icon icon=${this.config.load_icon ?? "mdi:home-lightning-bolt"}></ha-icon>
             <div class="node-copy">
               <span class="label">${this.config.load_label ?? "Load"}</span>
-              <strong>${formatPower(system.load.watts, locale)}</strong>
+              <strong>${formatPower(system.load.watts, locale, 0)}</strong>
             </div>
             ${this.warning(
               system.load.warning,

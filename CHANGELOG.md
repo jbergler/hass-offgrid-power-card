@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+
+- Round calculated consumption to zero decimal places.
+
 ## 0.1.5
 
 - Match the solar node hierarchy and width to the battery node.
