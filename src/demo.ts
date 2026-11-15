@@ -62,9 +62,11 @@ for (const card of document.querySelectorAll("offgrid-power-card")) {
     title: "RV power",
     solar_power_entity: "sensor.solar_power",
     solar_energy_today_entity: "sensor.solar_energy_today",
-    battery_soc_entity: "sensor.battery_soc",
-    battery_power_entity: "sensor.battery_power",
-    battery_time_remaining_entity: "sensor.battery_time_remaining",
+    battery: {
+      soc: "sensor.battery_soc",
+      power: "sensor.battery_power",
+      time_remaining: "sensor.battery_time_remaining",
+    },
   });
   card.hass = hass;
 }

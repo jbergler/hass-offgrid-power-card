@@ -1,14 +1,18 @@
 export type BatteryPowerPositive = "discharging" | "charging";
 
+export interface BatteryConfig {
+  soc: string;
+  power: string;
+  power_positive?: BatteryPowerPositive;
+  time_remaining?: string;
+}
+
 export interface OffgridPowerCardConfig {
   type: "custom:offgrid-power-card";
   title?: string;
   solar_power_entity: string;
-  battery_soc_entity: string;
-  battery_power_entity: string;
   solar_energy_today_entity?: string;
-  battery_time_remaining_entity?: string;
-  battery_power_positive?: BatteryPowerPositive;
+  battery: BatteryConfig;
   flow_rate_threshold?: number;
   max_power?: number;
   solar_label?: string;
@@ -22,7 +26,9 @@ export interface OffgridPowerCardConfig {
 
 export interface NormalizedOffgridPowerCardConfig
   extends OffgridPowerCardConfig {
-  battery_power_positive: BatteryPowerPositive;
+  battery: BatteryConfig & {
+    power_positive: BatteryPowerPositive;
+  };
   flow_rate_threshold: number;
   max_power: number;
 }
@@ -35,21 +41,28 @@ export function normalizeConfig(
   }
 
   const config = input as Record<string, unknown>;
-  const requiredEntities = [
-    "solar_power_entity",
-    "battery_soc_entity",
-    "battery_power_entity",
-  ] as const;
-  for (const key of requiredEntities) {
-    if (typeof config[key] !== "string" || config[key].trim() === "") {
-      throw new Error(`${key} must be a non-empty entity ID`);
+  if (
+    typeof config.solar_power_entity !== "string" ||
+    config.solar_power_entity.trim() === ""
+  ) {
+    throw new Error("solar_power_entity must be a non-empty entity ID");
+  }
+
+  if (typeof config.battery !== "object" || config.battery === null) {
+    throw new Error("battery must be an object");
+  }
+
+  const battery = config.battery as Record<string, unknown>;
+  for (const key of ["soc", "power"] as const) {
+    if (typeof battery[key] !== "string" || battery[key].trim() === "") {
+      throw new Error(`battery.${key} must be a non-empty entity ID`);
     }
   }
 
-  const positive = config.battery_power_positive ?? "discharging";
+  const positive = battery.power_positive ?? "discharging";
   if (positive !== "discharging" && positive !== "charging") {
     throw new Error(
-      "battery_power_positive must be 'discharging' or 'charging'",
+      "battery.power_positive must be 'discharging' or 'charging'",
     );
   }
 
@@ -65,7 +78,10 @@ export function normalizeConfig(
 
   return {
     ...(config as unknown as OffgridPowerCardConfig),
-    battery_power_positive: positive,
+    battery: {
+      ...(battery as unknown as BatteryConfig),
+      power_positive: positive,
+    },
     flow_rate_threshold: threshold,
     max_power: maxPower,
   };
@@ -208,19 +224,19 @@ export function derivePowerSystem(
   const threshold = config.flow_rate_threshold ?? 5;
   const maxPower = config.max_power ?? 3000;
   const solarWatts = powerState(states[config.solar_power_entity]);
-  const batteryRawWatts = powerState(states[config.battery_power_entity]);
+  const batteryRawWatts = powerState(states[config.battery.power]);
   const energyTodayWh = config.solar_energy_today_entity
     ? energyState(states[config.solar_energy_today_entity])
     : null;
-  const timeRemainingSeconds = config.battery_time_remaining_entity
-    ? durationState(states[config.battery_time_remaining_entity])
+  const timeRemainingSeconds = config.battery.time_remaining
+    ? durationState(states[config.battery.time_remaining])
     : null;
   const batteryWatts =
     batteryRawWatts === null
       ? null
       : batteryRawWatts *
-        (config.battery_power_positive === "charging" ? -1 : 1);
-  const soc = numericState(states[config.battery_soc_entity]);
+        (config.battery.power_positive === "charging" ? -1 : 1);
+  const soc = numericState(states[config.battery.soc]);
   const loadWatts =
     solarWatts === null || batteryWatts === null
       ? null

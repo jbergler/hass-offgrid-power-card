@@ -9,8 +9,10 @@ import {
 const config: OffgridPowerCardConfig = {
   type: "custom:offgrid-power-card",
   solar_power_entity: "sensor.solar_power",
-  battery_soc_entity: "sensor.battery_soc",
-  battery_power_entity: "sensor.battery_power",
+  battery: {
+    soc: "sensor.battery_soc",
+    power: "sensor.battery_power",
+  },
 };
 
 function states(
@@ -70,7 +72,10 @@ describe("derivePowerSystem", () => {
       {
         ...config,
         solar_energy_today_entity: "sensor.solar_energy_today",
-        battery_time_remaining_entity: "sensor.battery_time_remaining",
+        battery: {
+          ...config.battery,
+          time_remaining: "sensor.battery_time_remaining",
+        },
       },
       states({
         "sensor.solar_power": ["600", "W", "power"],
@@ -91,16 +96,18 @@ describe("derivePowerSystem", () => {
   it("applies safe defaults and rejects a missing required entity", () => {
     const normalized = normalizeConfig(config);
 
-    expect(normalized.battery_power_positive).toBe("discharging");
+    expect(normalized.battery.power_positive).toBe("discharging");
     expect(normalized.flow_rate_threshold).toBe(5);
     expect(normalized.max_power).toBe(3000);
     expect(() =>
       normalizeConfig({
         type: "custom:offgrid-power-card",
         solar_power_entity: "sensor.solar_power",
-        battery_power_entity: "sensor.battery_power",
+        battery: {
+          power: "sensor.battery_power",
+        },
       }),
-    ).toThrow("battery_soc_entity");
+    ).toThrow("battery.soc");
   });
 
   it("rejects an entity whose declared device class has the wrong dimension", () => {

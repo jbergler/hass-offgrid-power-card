@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- **Breaking:** group battery sensors and sign convention under `battery.soc`, `battery.power`, `battery.power_positive`, and `battery.time_remaining`.
+- Open Home Assistant more-info from the Solar and Battery nodes, including keyboard activation.
+- Keep the topology landscape at every width and derive card height from a 36:17 aspect ratio with viewport-aware limits.
+- Use automatic Sections dashboard row height instead of a fixed row count.
+
 ## 0.1.8
 
 - Format remaining time with localized full unit names, such as `3 days, 23 hours remaining`.

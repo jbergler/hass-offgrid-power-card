@@ -253,11 +253,11 @@ var v = class extends HTMLElement {
 };
 v.elementStyles = [], v.shadowRootOptions = { mode: "open" }, v[m("elementProperties")] = /* @__PURE__ */ new Map(), v[m("finalized")] = /* @__PURE__ */ new Map(), ie?.({ ReactiveElement: v }), (f.reactiveElementVersions ??= []).push("2.1.2");
 // node_modules/lit-html/lit-html.js
-var y = globalThis, b = (e) => e, x = y.trustedTypes, ae = x ? x.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, S = "$lit$", C = `lit$${Math.random().toFixed(9).slice(2)}$`, w = "?" + C, oe = `<${w}>`, T = document, E = () => T.createComment(""), D = (e) => e === null || typeof e != "object" && typeof e != "function", O = Array.isArray, se = (e) => O(e) || typeof e?.[Symbol.iterator] == "function", k = "[ 	\n\f\r]", A = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, j = /-->/g, M = />/g, N = RegExp(`>|${k}(?:([^\\s"'>=/]+)(${k}*=${k}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ce = /'/g, le = /"/g, ue = /^(?:script|style|textarea|title)$/i, de = (e) => (t, ...n) => ({
+var y = globalThis, b = (e) => e, x = y.trustedTypes, ae = x ? x.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, S = "$lit$", C = `lit$${Math.random().toFixed(9).slice(2)}$`, w = "?" + C, oe = `<${w}>`, T = document, E = () => T.createComment(""), D = (e) => e === null || typeof e != "object" && typeof e != "function", O = Array.isArray, se = (e) => O(e) || typeof e?.[Symbol.iterator] == "function", k = "[ 	\n\f\r]", A = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ce = /-->/g, j = />/g, M = RegExp(`>|${k}(?:([^\\s"'>=/]+)(${k}*=${k}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), le = /'/g, ue = /"/g, de = /^(?:script|style|textarea|title)$/i, N = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), P = de(1), fe = de(2), F = Symbol.for("lit-noChange"), I = Symbol.for("lit-nothing"), L = /* @__PURE__ */ new WeakMap(), R = T.createTreeWalker(T, 129);
+}), P = N(1), fe = N(2), F = Symbol.for("lit-noChange"), I = Symbol.for("lit-nothing"), L = /* @__PURE__ */ new WeakMap(), R = T.createTreeWalker(T, 129);
 function z(e, t) {
 	if (!O(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
 	return ae === void 0 ? t : ae.createHTML(t);
@@ -266,8 +266,8 @@ var pe = (e, t) => {
 	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = A;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === A ? c[1] === "!--" ? o = j : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = N) : (ue.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = N) : o = M : o === N ? c[0] === ">" ? (o = i ?? A, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? N : c[3] === "\"" ? le : ce) : o === le || o === ce ? o = N : o === j || o === M ? o = A : (o = N, i = void 0);
-		let d = o === N && e[t + 1].startsWith("/>") ? " " : "";
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === A ? c[1] === "!--" ? o = ce : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = M) : (de.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = M) : o = j : o === M ? c[0] === ">" ? (o = i ?? A, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? M : c[3] === "\"" ? ue : le) : o === ue || o === le ? o = M : o === ce || o === j ? o = A : (o = M, i = void 0);
+		let d = o === M && e[t + 1].startsWith("/>") ? " " : "";
 		a += o === A ? n + oe : l >= 0 ? (r.push(s), n.slice(0, l) + S + n.slice(l) + C + d) : n + C + (l === -2 ? t : d);
 	}
 	return [z(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
@@ -295,7 +295,7 @@ var pe = (e, t) => {
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (ue.test(i.tagName)) {
+				if (de.test(i.tagName)) {
 					let e = i.textContent.split(C), t = e.length - 1;
 					if (t > 0) {
 						i.textContent = x ? x.emptyScript : "";
@@ -584,22 +584,24 @@ function De(e, t) {
 function Oe(e) {
 	if (typeof e != "object" || !e) throw Error("Card configuration must be an object");
 	let t = e;
-	for (let e of [
-		"solar_power_entity",
-		"battery_soc_entity",
-		"battery_power_entity"
-	]) if (typeof t[e] != "string" || t[e].trim() === "") throw Error(`${e} must be a non-empty entity ID`);
-	let n = t.battery_power_positive ?? "discharging";
-	if (n !== "discharging" && n !== "charging") throw Error("battery_power_positive must be 'discharging' or 'charging'");
-	let r = t.flow_rate_threshold ?? 5;
-	if (typeof r != "number" || !Number.isFinite(r) || r < 0) throw Error("flow_rate_threshold must be a non-negative number");
-	let i = t.max_power ?? 3e3;
-	if (typeof i != "number" || !Number.isFinite(i) || i <= 0) throw Error("max_power must be a positive number");
+	if (typeof t.solar_power_entity != "string" || t.solar_power_entity.trim() === "") throw Error("solar_power_entity must be a non-empty entity ID");
+	if (typeof t.battery != "object" || t.battery === null) throw Error("battery must be an object");
+	let n = t.battery;
+	for (let e of ["soc", "power"]) if (typeof n[e] != "string" || n[e].trim() === "") throw Error(`battery.${e} must be a non-empty entity ID`);
+	let r = n.power_positive ?? "discharging";
+	if (r !== "discharging" && r !== "charging") throw Error("battery.power_positive must be 'discharging' or 'charging'");
+	let i = t.flow_rate_threshold ?? 5;
+	if (typeof i != "number" || !Number.isFinite(i) || i < 0) throw Error("flow_rate_threshold must be a non-negative number");
+	let a = t.max_power ?? 3e3;
+	if (typeof a != "number" || !Number.isFinite(a) || a <= 0) throw Error("max_power must be a positive number");
 	return {
 		...t,
-		battery_power_positive: n,
-		flow_rate_threshold: r,
-		max_power: i
+		battery: {
+			...n,
+			power_positive: r
+		},
+		flow_rate_threshold: i,
+		max_power: a
 	};
 }
 function X(e) {
@@ -650,7 +652,7 @@ function Z(e, t, n, r) {
 	};
 }
 function Me(e, t) {
-	let n = e.flow_rate_threshold ?? 5, r = e.max_power ?? 3e3, i = ke(t[e.solar_power_entity]), a = ke(t[e.battery_power_entity]), o = e.solar_energy_today_entity ? Ae(t[e.solar_energy_today_entity]) : null, s = e.battery_time_remaining_entity ? je(t[e.battery_time_remaining_entity]) : null, c = a === null ? null : a * (e.battery_power_positive === "charging" ? -1 : 1), l = X(t[e.battery_soc_entity]), u = i === null || c === null ? null : i + c, d = c === null ? "unavailable" : c >= n ? "discharging" : c <= -n ? "charging" : "idle";
+	let n = e.flow_rate_threshold ?? 5, r = e.max_power ?? 3e3, i = ke(t[e.solar_power_entity]), a = ke(t[e.battery.power]), o = e.solar_energy_today_entity ? Ae(t[e.solar_energy_today_entity]) : null, s = e.battery.time_remaining ? je(t[e.battery.time_remaining]) : null, c = a === null ? null : a * (e.battery.power_positive === "charging" ? -1 : 1), l = X(t[e.battery.soc]), u = i === null || c === null ? null : i + c, d = c === null ? "unavailable" : c >= n ? "discharging" : c <= -n ? "charging" : "idle";
 	return {
 		solar: {
 			watts: i,
@@ -688,7 +690,7 @@ function Q(e, t, n, r) {
 // src/offgrid-power-card.ts
 var $ = class extends G {
 	constructor(...e) {
-		super(...e), this.wide = !1, this.compact = !1;
+		super(...e), this.compact = !1;
 	}
 	setConfig(e) {
 		this.config = Oe(e);
@@ -700,17 +702,14 @@ var $ = class extends G {
 		return {
 			columns: "full",
 			min_columns: 6,
-			rows: 4,
-			min_rows: 3
+			rows: "auto"
 		};
 	}
 	connectedCallback() {
 		super.connectedCallback(), this.resizeObserver = new ResizeObserver(([e]) => {
 			if (!e) return;
-			let t = e.contentRect.width >= e.contentRect.height * 1.25;
-			t !== this.wide && (this.wide = t);
-			let n = e.contentRect.height <= 200;
-			n !== this.compact && (this.compact = n);
+			let t = e.contentRect.height <= 200;
+			t !== this.compact && (this.compact = t);
 		}), this.resizeObserver.observe(this);
 	}
 	disconnectedCallback() {
@@ -720,12 +719,20 @@ var $ = class extends G {
 		if (!this.config || !this.hass) return I;
 		let e = Me(this.config, this.hass.states), t = this.hass.locale?.language ?? this.hass.language ?? navigator.language, n = e.battery.soc, r = n === null ? 0 : Math.min(100, Math.max(0, n));
 		return P`
-      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
+      <ha-card data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
         ${this.config.title ? P`<div class="title">${this.config.title}</div>` : I}
         <div class="diagram" aria-label="Off-grid electrical power flow">
           ${this.renderFlows(e.flows)}
 
-          <section class="node solar ${e.solar.warning ? "warning" : ""}">
+          <section
+            class="node solar ${e.solar.warning ? "warning" : ""}"
+            data-entity-id=${this.config.solar_power_entity}
+            role="button"
+            tabindex="0"
+            aria-label="Show ${this.config.solar_label ?? "Solar"} details"
+            @click=${this.showMoreInfo}
+            @keydown=${this.handleNodeKeydown}
+          >
             <div class="node-heading">
               <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
               <span class="label">${this.config.solar_label ?? "Solar"}</span>
@@ -737,7 +744,15 @@ var $ = class extends G {
 
           <div class="bus" aria-label="Power bus"></div>
 
-          <section class="node battery ${e.battery.warning ? "warning" : ""}">
+          <section
+            class="node battery ${e.battery.warning ? "warning" : ""}"
+            data-entity-id=${this.config.battery.soc}
+            role="button"
+            tabindex="0"
+            aria-label="Show ${this.config.battery_label ?? "Battery"} details"
+            @click=${this.showMoreInfo}
+            @keydown=${this.handleNodeKeydown}
+          >
             <div class="node-heading">
               <ha-icon icon=${this.config.battery_icon ?? "mdi:battery"}></ha-icon>
               <span class="label">${this.config.battery_label ?? "Battery"}</span>
@@ -747,7 +762,7 @@ var $ = class extends G {
             <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${n ?? I}>
               <div class="battery-fill" style=${`width:${r}%`}></div>
             </div>
-            ${this.config.battery_time_remaining_entity ? P`<span class="secondary time">${De(e.battery.timeRemainingSeconds, t)} ${e.battery.mode === "charging" ? "until full" : "remaining"}</span>` : I}
+            ${this.config.battery.time_remaining ? P`<span class="secondary time">${De(e.battery.timeRemainingSeconds, t)} ${e.battery.mode === "charging" ? "until full" : "remaining"}</span>` : I}
           </section>
 
           <section class="node load ${e.load.warning ? "warning" : ""}">
@@ -762,18 +777,25 @@ var $ = class extends G {
       </ha-card>
     `;
 	}
+	showMoreInfo(e) {
+		let t = e.currentTarget.dataset.entityId;
+		t && this.dispatchEvent(new CustomEvent("hass-more-info", {
+			detail: { entityId: t },
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	handleNodeKeydown(e) {
+		(e.key === "Enter" || e.key === " ") && (e.preventDefault(), this.showMoreInfo(e));
+	}
 	warning(e, t) {
 		return e ? P`<ha-icon class="warning-icon" icon="mdi:alert-circle-outline" title=${t} aria-label=${t}></ha-icon>` : I;
 	}
 	renderFlows(e) {
-		let t = this.wide ? {
+		let t = {
 			solar: "M 22 36 L 48 36",
 			battery: "M 50 78 L 50 40",
 			load: "M 52 36 L 78 36"
-		} : {
-			solar: "M 38 18 L 38 46",
-			battery: "M 38 82 L 38 54",
-			load: "M 40 50 L 59 50"
 		};
 		return P`
       <svg class="flows" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -805,8 +827,10 @@ var $ = class extends G {
 		this.styles = o`
     :host {
       display: block;
-      height: 100%;
+      height: auto;
       min-height: 184px;
+      max-height: min(360px, calc(100dvh - 96px));
+      aspect-ratio: 36 / 17;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -923,6 +947,15 @@ var $ = class extends G {
       transform: translate(-50%, -50%);
     }
 
+    .node[role="button"] {
+      cursor: pointer;
+    }
+
+    .node[role="button"]:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
     .node ha-icon {
       flex: 0 0 auto;
       color: var(--secondary-text-color);
@@ -1010,19 +1043,16 @@ var $ = class extends G {
       box-sizing: border-box;
     }
 
-    ha-card[data-layout="wide"] .solar { left: 16%; top: 36%; }
-    ha-card[data-layout="wide"] .bus { left: 50%; top: 36%; }
-    ha-card[data-layout="wide"] .load { left: 84%; top: 36%; }
-    ha-card[data-layout="wide"] .battery { left: 50%; top: 78%; }
-
-    ha-card[data-layout="tall"] .solar { left: 38%; top: 13%; }
-    ha-card[data-layout="tall"] .bus { left: 38%; top: 50%; }
-    ha-card[data-layout="tall"] .load { left: 75%; top: 50%; }
-    ha-card[data-layout="tall"] .battery { left: 38%; top: 87%; }
+    .solar { left: 16%; top: 36%; }
+    .bus { left: 50%; top: 36%; }
+    .load { left: 84%; top: 36%; }
+    .battery { left: 50%; top: 78%; }
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
       .solar, .battery { width: 150px; }
+      .solar { left: 22%; }
+      .load { left: 78%; }
       .secondary.time { display: none; }
     }
 
@@ -1040,7 +1070,7 @@ var $ = class extends G {
   `;
 	}
 };
-Q([K({ attribute: !1 })], $.prototype, "hass", void 0), Q([q()], $.prototype, "config", void 0), Q([q()], $.prototype, "wide", void 0), Q([q()], $.prototype, "compact", void 0), $ = Q([Se("offgrid-power-card")], $), window.customCards = window.customCards ?? [], window.customCards.some((e) => e.type === "offgrid-power-card") || window.customCards.push({
+Q([K({ attribute: !1 })], $.prototype, "hass", void 0), Q([q()], $.prototype, "config", void 0), Q([q()], $.prototype, "compact", void 0), $ = Q([Se("offgrid-power-card")], $), window.customCards = window.customCards ?? [], window.customCards.some((e) => e.type === "offgrid-power-card") || window.customCards.push({
 	type: "offgrid-power-card",
 	name: "Off-grid Power Card",
 	description: "Solar, battery, and calculated load power flows.",

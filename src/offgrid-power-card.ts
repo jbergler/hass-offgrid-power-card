@@ -34,7 +34,6 @@ declare global {
 export class OffgridPowerCard extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @state() private config?: NormalizedOffgridPowerCardConfig;
-  @state() private wide = false;
   @state() private compact = false;
 
   private resizeObserver?: ResizeObserver;
@@ -51,8 +50,7 @@ export class OffgridPowerCard extends LitElement {
     return {
       columns: "full",
       min_columns: 6,
-      rows: 4,
-      min_rows: 3,
+      rows: "auto",
     };
   }
 
@@ -60,8 +58,6 @@ export class OffgridPowerCard extends LitElement {
     super.connectedCallback();
     this.resizeObserver = new ResizeObserver(([entry]) => {
       if (!entry) return;
-      const nextWide = entry.contentRect.width >= entry.contentRect.height * 1.25;
-      if (nextWide !== this.wide) this.wide = nextWide;
       const nextCompact = entry.contentRect.height <= 200;
       if (nextCompact !== this.compact) this.compact = nextCompact;
     });
@@ -83,14 +79,22 @@ export class OffgridPowerCard extends LitElement {
     const boundedSoc = soc === null ? 0 : Math.min(100, Math.max(0, soc));
 
     return html`
-      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
+      <ha-card data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
         ${this.config.title
           ? html`<div class="title">${this.config.title}</div>`
           : nothing}
         <div class="diagram" aria-label="Off-grid electrical power flow">
           ${this.renderFlows(system.flows)}
 
-          <section class="node solar ${system.solar.warning ? "warning" : ""}">
+          <section
+            class="node solar ${system.solar.warning ? "warning" : ""}"
+            data-entity-id=${this.config.solar_power_entity}
+            role="button"
+            tabindex="0"
+            aria-label="Show ${this.config.solar_label ?? "Solar"} details"
+            @click=${this.showMoreInfo}
+            @keydown=${this.handleNodeKeydown}
+          >
             <div class="node-heading">
               <ha-icon icon=${this.config.solar_icon ?? "mdi:white-balance-sunny"}></ha-icon>
               <span class="label">${this.config.solar_label ?? "Solar"}</span>
@@ -104,7 +108,15 @@ export class OffgridPowerCard extends LitElement {
 
           <div class="bus" aria-label="Power bus"></div>
 
-          <section class="node battery ${system.battery.warning ? "warning" : ""}">
+          <section
+            class="node battery ${system.battery.warning ? "warning" : ""}"
+            data-entity-id=${this.config.battery.soc}
+            role="button"
+            tabindex="0"
+            aria-label="Show ${this.config.battery_label ?? "Battery"} details"
+            @click=${this.showMoreInfo}
+            @keydown=${this.handleNodeKeydown}
+          >
             <div class="node-heading">
               <ha-icon icon=${this.config.battery_icon ?? "mdi:battery"}></ha-icon>
               <span class="label">${this.config.battery_label ?? "Battery"}</span>
@@ -117,7 +129,7 @@ export class OffgridPowerCard extends LitElement {
             <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${soc ?? nothing}>
               <div class="battery-fill" style=${`width:${boundedSoc}%`}></div>
             </div>
-            ${this.config.battery_time_remaining_entity
+            ${this.config.battery.time_remaining
               ? html`<span class="secondary time">${formatDuration(system.battery.timeRemainingSeconds, locale)} ${system.battery.mode === "charging" ? "until full" : "remaining"}</span>`
               : nothing}
           </section>
@@ -138,6 +150,25 @@ export class OffgridPowerCard extends LitElement {
     `;
   }
 
+  private showMoreInfo(event: Event): void {
+    const entityId = (event.currentTarget as HTMLElement).dataset.entityId;
+    if (!entityId) return;
+
+    this.dispatchEvent(
+      new CustomEvent("hass-more-info", {
+        detail: { entityId },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private handleNodeKeydown(event: KeyboardEvent): void {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    this.showMoreInfo(event);
+  }
+
   private warning(show: boolean, label: string) {
     return show
       ? html`<ha-icon class="warning-icon" icon="mdi:alert-circle-outline" title=${label} aria-label=${label}></ha-icon>`
@@ -149,17 +180,11 @@ export class OffgridPowerCard extends LitElement {
     battery: PowerFlow;
     load: PowerFlow;
   }) {
-    const paths = this.wide
-      ? {
-          solar: "M 22 36 L 48 36",
-          battery: "M 50 78 L 50 40",
-          load: "M 52 36 L 78 36",
-        }
-      : {
-          solar: "M 38 18 L 38 46",
-          battery: "M 38 82 L 38 54",
-          load: "M 40 50 L 59 50",
-        };
+    const paths = {
+      solar: "M 22 36 L 48 36",
+      battery: "M 50 78 L 50 40",
+      load: "M 52 36 L 78 36",
+    };
 
     return html`
       <svg class="flows" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -200,8 +225,10 @@ export class OffgridPowerCard extends LitElement {
   static override styles = css`
     :host {
       display: block;
-      height: 100%;
+      height: auto;
       min-height: 184px;
+      max-height: min(360px, calc(100dvh - 96px));
+      aspect-ratio: 36 / 17;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -318,6 +345,15 @@ export class OffgridPowerCard extends LitElement {
       transform: translate(-50%, -50%);
     }
 
+    .node[role="button"] {
+      cursor: pointer;
+    }
+
+    .node[role="button"]:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
     .node ha-icon {
       flex: 0 0 auto;
       color: var(--secondary-text-color);
@@ -405,19 +441,16 @@ export class OffgridPowerCard extends LitElement {
       box-sizing: border-box;
     }
 
-    ha-card[data-layout="wide"] .solar { left: 16%; top: 36%; }
-    ha-card[data-layout="wide"] .bus { left: 50%; top: 36%; }
-    ha-card[data-layout="wide"] .load { left: 84%; top: 36%; }
-    ha-card[data-layout="wide"] .battery { left: 50%; top: 78%; }
-
-    ha-card[data-layout="tall"] .solar { left: 38%; top: 13%; }
-    ha-card[data-layout="tall"] .bus { left: 38%; top: 50%; }
-    ha-card[data-layout="tall"] .load { left: 75%; top: 50%; }
-    ha-card[data-layout="tall"] .battery { left: 38%; top: 87%; }
+    .solar { left: 16%; top: 36%; }
+    .bus { left: 50%; top: 36%; }
+    .load { left: 84%; top: 36%; }
+    .battery { left: 50%; top: 78%; }
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
       .solar, .battery { width: 150px; }
+      .solar { left: 22%; }
+      .load { left: 78%; }
       .secondary.time { display: none; }
     }
 

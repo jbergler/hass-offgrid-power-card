@@ -31,10 +31,11 @@ type: custom:offgrid-power-card
 title: RV power
 solar_power_entity: sensor.rv_solar_power
 solar_energy_today_entity: sensor.rv_solar_energy_today
-battery_soc_entity: sensor.rv_battery_state_of_charge
-battery_power_entity: sensor.rv_battery_power
-battery_time_remaining_entity: sensor.rv_battery_time_remaining
-battery_power_positive: discharging
+battery:
+  soc: sensor.rv_battery_state_of_charge
+  power: sensor.rv_battery_power
+  power_positive: discharging
+  time_remaining: sensor.rv_battery_remaining_minutes
 flow_rate_threshold: 5
 max_power: 3000
 transparent: true
@@ -43,11 +44,11 @@ transparent: true
 | Key | Required | Default | Meaning |
 |---|---:|---|---|
 | `solar_power_entity` | Yes | — | Current solar production; power sensor using mW, W, kW, or MW |
-| `battery_soc_entity` | Yes | — | Battery state of charge in percent |
-| `battery_power_entity` | Yes | — | Signed battery power; power sensor using mW, W, kW, or MW |
+| `battery.soc` | Yes | — | Battery state of charge in percent |
+| `battery.power` | Yes | — | Signed battery power; power sensor using mW, W, kW, or MW |
 | `solar_energy_today_entity` | No | Hidden | Today's solar yield; energy sensor using mWh, Wh, kWh, or MWh |
-| `battery_time_remaining_entity` | No | Hidden | Remaining time; duration sensor using ms, s, min, h, or d |
-| `battery_power_positive` | No | `discharging` | Meaning of a positive battery-power value: `discharging` or `charging` |
+| `battery.time_remaining` | No | Hidden | Remaining time; duration sensor using ms, s, min, h, or d |
+| `battery.power_positive` | No | `discharging` | Meaning of a positive battery-power value: `discharging` or `charging` |
 | `flow_rate_threshold` | No | `5` | Absolute power in watts below which animation stops |
 | `max_power` | No | `3000` | Power in watts represented by maximum pulse density |
 | `title` | No | Hidden | Optional card heading |
@@ -65,14 +66,14 @@ With the default positive-discharge convention:
 calculated load = solar power + battery power
 ```
 
-Battery charging is represented by negative battery power. If `battery_power_positive: charging` is selected, the card normalizes that sign before calculating load.
+Battery charging is represented by negative battery power. If `battery.power_positive: charging` is selected, the card normalizes that sign before calculating load.
 
 Solar and battery feed a central power bus; the battery connection reverses direction while charging. Negative solar or calculated load values remain visible but stop the affected animation and receive a warning indicator. Unknown, unavailable, malformed, or dimensionally incompatible values appear as `—` only where affected.
 
 ## Display behavior
 
-- Wide containers place solar, bus, and load horizontally with the battery below the bus.
-- Tall containers place solar and battery vertically, with the load beside the bus.
+- The diagram keeps a landscape topology at every width; narrow containers tighten node widths and hide optional details before allowing overlap.
+- Height follows card width at a 36:17 aspect ratio, with a 184 px minimum and a 360 px/viewport-aware maximum.
 - Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
 - Calculated consumption uses whole watts below 1 kW and one decimal place in kW.
@@ -80,8 +81,9 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 - Flow pulses use a constant segment length; spacing represents power relative to `max_power`.
 - Static arrowheads preserve direction when reduced-motion preferences disable animation.
 - Optional details are progressively hidden in very narrow containers.
-- Sections dashboards default to full width and can resize vertically down to three grid rows.
+- Sections dashboards use full width with automatic row height instead of a fixed grid-row count.
 - The card inherits Home Assistant colors, typography, card shape, and dark/light theme variables.
+- Select Solar or Battery to open Home Assistant's more-info dialog for solar power or battery state of charge; both nodes support keyboard activation.
 
 ## Development
 
