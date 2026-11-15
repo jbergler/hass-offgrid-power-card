@@ -4,6 +4,7 @@
 
 - Remove the redundant battery charging/discharging detail line.
 - Support vertical resizing in Home Assistant sections dashboards, down to four grid rows.
+- Place the battery below the bus and the load beside it in tall layouts.
 
 ## 0.1.1
 

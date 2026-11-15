@@ -70,7 +70,7 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 ## Display behavior
 
 - Wide containers place solar, bus, and load horizontally with the battery below the bus.
-- Tall containers place solar and load vertically, with the battery beside the bus.
+- Tall containers place solar and battery vertically, with the load beside the bus.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
 - Pulses move slowly; density represents power relative to `max_power`.
 - Static arrowheads preserve direction when reduced-motion preferences disable animation.

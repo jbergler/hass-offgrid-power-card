@@ -762,8 +762,8 @@ var $ = class extends K {
 			load: "M 52 36 L 78 36"
 		} : {
 			solar: "M 62 18 L 62 46",
-			battery: "M 47 50 L 60 50",
-			load: "M 62 54 L 62 82"
+			battery: "M 62 82 L 62 54",
+			load: "M 60 50 L 47 50"
 		};
 		return F`
       <svg class="flows" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -984,8 +984,8 @@ var $ = class extends K {
 
     ha-card[data-layout="tall"] .solar { left: 62%; top: 13%; }
     ha-card[data-layout="tall"] .bus { left: 62%; top: 50%; }
-    ha-card[data-layout="tall"] .load { left: 62%; top: 87%; }
-    ha-card[data-layout="tall"] .battery { left: 25%; top: 50%; }
+    ha-card[data-layout="tall"] .load { left: 25%; top: 50%; }
+    ha-card[data-layout="tall"] .battery { left: 62%; top: 87%; }
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
