@@ -1,0 +1,27 @@
+{
+  "name": "hass-offgrid-power-card",
+  "version": "0.1.0",
+  "description": "A responsive Home Assistant card for off-grid solar, battery, and load power flows.",
+  "type": "module",
+  "files": [
+    "dist/offgrid-power-card.js"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
