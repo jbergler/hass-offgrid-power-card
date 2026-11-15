@@ -75,6 +75,7 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 - Pulses move slowly; density represents power relative to `max_power`.
 - Static arrowheads preserve direction when reduced-motion preferences disable animation.
 - Optional details are progressively hidden in very narrow containers.
+- Sections dashboards can resize the card vertically down to four grid rows.
 - The card inherits Home Assistant colors, typography, card shape, and dark/light theme variables.
 
 ## Development

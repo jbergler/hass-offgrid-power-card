@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Remove the redundant battery charging/discharging detail line.
+- Support vertical resizing in Home Assistant sections dashboards, down to four grid rows.
+
 ## 0.1.1
 
 - Move battery state of charge into the heading and right-align it.

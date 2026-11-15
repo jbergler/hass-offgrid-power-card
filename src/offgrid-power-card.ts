@@ -46,11 +46,11 @@ export class OffgridPowerCard extends LitElement {
     return 5;
   }
 
-  public static getGridOptions(): Record<string, number> {
+  public getGridOptions(): Record<string, number> {
     return {
       columns: 6,
       min_columns: 4,
-      rows: 6,
+      rows: 5,
       min_rows: 4,
     };
   }
@@ -78,12 +78,6 @@ export class OffgridPowerCard extends LitElement {
       this.hass.locale?.language ?? this.hass.language ?? navigator.language;
     const soc = system.battery.soc;
     const boundedSoc = soc === null ? 0 : Math.min(100, Math.max(0, soc));
-    const batteryPower =
-      system.battery.watts === null
-        ? "—"
-        : system.battery.mode === "idle"
-          ? "Idle"
-          : `${system.battery.mode === "charging" ? "Charging" : "Discharging"} ${formatPower(Math.abs(system.battery.watts), locale)}`;
 
     return html`
       <ha-card data-layout=${this.wide ? "wide" : "tall"}>
@@ -120,7 +114,6 @@ export class OffgridPowerCard extends LitElement {
             <div class="battery-bar" role="meter" aria-label="Battery state of charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${soc ?? nothing}>
               <div class="battery-fill" style=${`width:${boundedSoc}%`}></div>
             </div>
-            <span class="secondary">${batteryPower}</span>
             ${this.config.battery_time_remaining_entity
               ? html`<span class="secondary time">${formatDuration(system.battery.timeRemainingSeconds, locale)} ${system.battery.mode === "charging" ? "until full" : "remaining"}</span>`
               : nothing}
@@ -205,7 +198,7 @@ export class OffgridPowerCard extends LitElement {
     :host {
       display: block;
       height: 100%;
-      min-height: 280px;
+      min-height: 248px;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -213,7 +206,7 @@ export class OffgridPowerCard extends LitElement {
     ha-card {
       display: block;
       height: 100%;
-      min-height: 280px;
+      min-height: 248px;
       box-sizing: border-box;
       overflow: hidden;
       background: var(--ha-card-background, var(--card-background-color));
@@ -228,13 +221,13 @@ export class OffgridPowerCard extends LitElement {
     .diagram {
       position: relative;
       height: 100%;
-      min-height: 280px;
+      min-height: 248px;
       box-sizing: border-box;
     }
 
     .title + .diagram {
       height: calc(100% - 48px);
-      min-height: 232px;
+      min-height: 200px;
     }
 
     .flows {
