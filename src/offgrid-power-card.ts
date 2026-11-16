@@ -34,6 +34,7 @@ declare global {
 export class OffgridPowerCard extends LitElement {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @state() private config?: NormalizedOffgridPowerCardConfig;
+  @state() private wide = false;
   @state() private compact = false;
 
   private resizeObserver?: ResizeObserver;
@@ -58,6 +59,8 @@ export class OffgridPowerCard extends LitElement {
     super.connectedCallback();
     this.resizeObserver = new ResizeObserver(([entry]) => {
       if (!entry) return;
+      const nextWide = entry.contentRect.width >= 520;
+      if (nextWide !== this.wide) this.wide = nextWide;
       const nextCompact = entry.contentRect.height <= 200;
       if (nextCompact !== this.compact) this.compact = nextCompact;
     });
@@ -79,7 +82,7 @@ export class OffgridPowerCard extends LitElement {
     const boundedSoc = soc === null ? 0 : Math.min(100, Math.max(0, soc));
 
     return html`
-      <ha-card data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
+      <ha-card data-layout=${this.wide ? "wide" : "tall"} data-compact=${this.compact ? "true" : "false"} data-transparent=${this.config.transparent ? "true" : "false"}>
         ${this.config.title
           ? html`<div class="title">${this.config.title}</div>`
           : nothing}
@@ -180,11 +183,17 @@ export class OffgridPowerCard extends LitElement {
     battery: PowerFlow;
     load: PowerFlow;
   }) {
-    const paths = {
-      solar: "M 22 36 L 48 36",
-      battery: "M 50 78 L 50 40",
-      load: "M 52 36 L 78 36",
-    };
+    const paths = this.wide
+      ? {
+          solar: "M 22 36 L 48 36",
+          battery: "M 50 78 L 50 40",
+          load: "M 52 36 L 78 36",
+        }
+      : {
+          solar: "M 38 18 L 38 46",
+          battery: "M 38 82 L 38 54",
+          load: "M 40 50 L 59 50",
+        };
 
     return html`
       <svg class="flows" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -226,20 +235,25 @@ export class OffgridPowerCard extends LitElement {
     :host {
       display: block;
       height: auto;
-      min-height: 184px;
-      max-height: min(360px, calc(100dvh - 96px));
-      aspect-ratio: 36 / 17;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
 
     ha-card {
       display: block;
-      height: 100%;
+      width: 100%;
       min-height: 184px;
       box-sizing: border-box;
       overflow: hidden;
       background: var(--ha-card-background, var(--card-background-color));
+    }
+
+    ha-card[data-layout="wide"] {
+      height: clamp(184px, 47.222cqi, min(360px, calc(100dvh - 96px)));
+    }
+
+    ha-card[data-layout="tall"] {
+      height: clamp(360px, 160cqi, min(640px, calc(100dvh - 96px)));
     }
 
     ha-card[data-transparent="true"] {
@@ -441,17 +455,19 @@ export class OffgridPowerCard extends LitElement {
       box-sizing: border-box;
     }
 
-    .solar { left: 16%; top: 36%; }
-    .bus { left: 50%; top: 36%; }
-    .load { left: 84%; top: 36%; }
-    .battery { left: 50%; top: 78%; }
+    ha-card[data-layout="wide"] .solar { left: 16%; top: 36%; }
+    ha-card[data-layout="wide"] .bus { left: 50%; top: 36%; }
+    ha-card[data-layout="wide"] .load { left: 84%; top: 36%; }
+    ha-card[data-layout="wide"] .battery { left: 50%; top: 78%; }
+
+    ha-card[data-layout="tall"] .solar { left: 38%; top: 13%; }
+    ha-card[data-layout="tall"] .bus { left: 38%; top: 50%; }
+    ha-card[data-layout="tall"] .load { left: 75%; top: 50%; }
+    ha-card[data-layout="tall"] .battery { left: 38%; top: 87%; }
 
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
       .solar, .battery { width: 150px; }
-      .solar { left: 22%; }
-      .load { left: 78%; }
-      .secondary.time { display: none; }
     }
 
     @container (max-width: 320px) {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Restore a tall topology below 520 px and a landscape topology at wider phone and dashboard widths.
+- Derive each topology's height from card width while respecting viewport-height limits in Sections dashboards.
+
 ## 0.2.0
 
 - **Breaking:** group battery sensors and sign convention under `battery.soc`, `battery.power`, `battery.power_positive`, and `battery.time_remaining`.

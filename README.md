@@ -72,8 +72,8 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 
 ## Display behavior
 
-- The diagram keeps a landscape topology at every width; narrow containers tighten node widths and hide optional details before allowing overlap.
-- Height follows card width at a 36:17 aspect ratio, with a 184 px minimum and a 360 px/viewport-aware maximum.
+- Containers below 520 px use the tall topology; wider containers use the landscape topology, so rotating a phone reflows the card.
+- Height follows card width for each topology and is capped against the viewport: 184–360 px wide and 360–640 px tall.
 - Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
 - Calculated consumption uses whole watts below 1 kW and one decimal place in kW.
