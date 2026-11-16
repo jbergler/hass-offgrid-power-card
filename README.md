@@ -74,6 +74,7 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 
 - In Sections dashboards, one rendered section column uses the compact landscape topology; two or more columns use the tall topology. Outside Sections dashboards, containers below 520 px remain tall.
 - Height follows card width for each topology and is capped against the viewport: 184–360 px wide and 360–640 px tall.
+- Explicit Sections `rows` allocations stretch the card vertically; automatic rows retain the responsive minimum height.
 - Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
 - Calculated consumption uses whole watts below 1 kW and one decimal place in kW.

@@ -846,7 +846,7 @@ var $ = class extends G {
 		this.styles = o`
     :host {
       display: block;
-      height: auto;
+      height: 100%;
       color: var(--primary-text-color);
       container-type: inline-size;
     }
@@ -854,6 +854,7 @@ var $ = class extends G {
     ha-card {
       display: block;
       width: 100%;
+      height: 100%;
       min-height: 184px;
       box-sizing: border-box;
       overflow: hidden;
@@ -861,11 +862,11 @@ var $ = class extends G {
     }
 
     ha-card[data-layout="wide"] {
-      height: clamp(184px, 47.222cqi, min(360px, calc(100dvh - 96px)));
+      min-height: clamp(184px, 47.222cqi, min(360px, calc(100dvh - 96px)));
     }
 
     ha-card[data-layout="tall"] {
-      height: clamp(360px, 160cqi, min(640px, calc(100dvh - 96px)));
+      min-height: clamp(360px, 160cqi, min(640px, calc(100dvh - 96px)));
     }
 
     ha-card[data-transparent="true"] {

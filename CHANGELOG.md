@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.3
+
+- Stretch the card and its power-flow diagram through explicitly configured Sections grid rows instead of leaving dead space below it.
+- Preserve responsive minimum heights when Sections row height is automatic.
+
 ## 0.2.2
 
 - Use compact landscape topology when the Sections dashboard renders one section column.
