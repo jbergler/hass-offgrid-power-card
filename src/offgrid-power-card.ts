@@ -9,6 +9,8 @@ import {
   type PowerFlow,
 } from "./power-system";
 
+const MOBILE_USER_AGENT = /Android|iPhone|iPad|iPod|Mobile/i;
+
 export interface HomeAssistant {
   states: Record<string, HomeAssistantState>;
   locale?: { language?: string };
@@ -59,7 +61,8 @@ export class OffgridPowerCard extends LitElement {
     super.connectedCallback();
     this.resizeObserver = new ResizeObserver(([entry]) => {
       if (!entry) return;
-      const nextWide = entry.contentRect.width >= 520;
+      const nextWide =
+        MOBILE_USER_AGENT.test(navigator.userAgent) || entry.contentRect.width >= 520;
       if (nextWide !== this.wide) this.wide = nextWide;
       const nextCompact = entry.contentRect.height <= 200;
       if (nextCompact !== this.compact) this.compact = nextCompact;
@@ -468,6 +471,9 @@ export class OffgridPowerCard extends LitElement {
     @container (max-width: 390px) {
       .node { min-width: 100px; padding: 8px 10px; }
       .solar, .battery { width: 150px; }
+      ha-card[data-layout="wide"] .solar { left: 22%; }
+      ha-card[data-layout="wide"] .load { left: 78%; }
+      ha-card[data-layout="wide"] .secondary.time { display: none; }
     }
 
     @container (max-width: 320px) {

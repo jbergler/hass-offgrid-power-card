@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- Use compact landscape topology on phones while preserving the tall topology for narrow desktop and dedicated-touchscreen Sections cards.
+- Keep narrow wide-layout nodes inside their Sections column without overlap.
+
 ## 0.2.1
 
 - Restore a tall topology below 520 px and a landscape topology at wider phone and dashboard widths.
