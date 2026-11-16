@@ -375,8 +375,7 @@ export class OffgridPowerCard extends LitElement {
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 112px;
-      max-width: 176px;
+      width: 176px;
       box-sizing: border-box;
       padding: 10px 12px;
       border: 1px solid var(--divider-color);
@@ -429,7 +428,6 @@ export class OffgridPowerCard extends LitElement {
 
     .solar,
     .battery {
-      width: 176px;
       gap: 7px;
     }
 
@@ -493,8 +491,7 @@ export class OffgridPowerCard extends LitElement {
     ha-card[data-layout="tall"] .battery { left: 38%; top: 87%; }
 
     @container (max-width: 390px) {
-      .node { min-width: 100px; padding: 8px 10px; }
-      .solar, .battery { width: 150px; }
+      .node { width: 150px; padding: 8px 10px; }
       ha-card[data-layout="wide"] .solar { left: 22%; }
       ha-card[data-layout="wide"] .load { left: 78%; }
       ha-card[data-layout="wide"] .secondary.time { display: none; }
@@ -502,8 +499,7 @@ export class OffgridPowerCard extends LitElement {
 
     @container (max-width: 320px) {
       .title { display: none; }
-      .node { min-width: 92px; }
-      .solar, .battery { width: 136px; }
+      .node { width: 136px; }
       .solar .secondary { display: none; }
     }
 

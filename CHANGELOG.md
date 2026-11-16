@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4
+
+- Give the Solar, Consumption, and Battery node boxes the same responsive width.
+
 ## 0.2.3
 
 - Stretch the card and its power-flow diagram through explicitly configured Sections grid rows instead of leaving dead space below it.
