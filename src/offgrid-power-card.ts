@@ -9,7 +9,6 @@ import {
   type PowerFlow,
 } from "./power-system";
 
-const MOBILE_USER_AGENT = /Android|iPhone|iPad|iPod|Mobile/i;
 
 export interface HomeAssistant {
   states: Record<string, HomeAssistantState>;
@@ -61,8 +60,9 @@ export class OffgridPowerCard extends LitElement {
     super.connectedCallback();
     this.resizeObserver = new ResizeObserver(([entry]) => {
       if (!entry) return;
-      const nextWide =
-        MOBILE_USER_AGENT.test(navigator.userAgent) || entry.contentRect.width >= 520;
+      const sectionColumns = this.renderedSectionColumns();
+      const nextWide = sectionColumns === 1 ||
+        (sectionColumns === null && entry.contentRect.width >= 520);
       if (nextWide !== this.wide) this.wide = nextWide;
       const nextCompact = entry.contentRect.height <= 200;
       if (nextCompact !== this.compact) this.compact = nextCompact;
@@ -173,6 +173,29 @@ export class OffgridPowerCard extends LitElement {
     if (event.key !== "Enter" && event.key !== " ") return;
     event.preventDefault();
     this.showMoreInfo(event);
+  }
+
+  private renderedSectionColumns(): number | null {
+    let node: HTMLElement | null = this;
+    let insideSection = false;
+
+    while (node) {
+      if (node.tagName === "HUI-SECTION") {
+        insideSection = true;
+      } else if (insideSection && node.classList.contains("content")) {
+        const tracks = getComputedStyle(node).gridTemplateColumns
+          .replace(/\[[^\]]*\]/g, "")
+          .trim();
+        return tracks && tracks !== "none" ? tracks.split(/\s+/).length : null;
+      }
+
+      const parentNode: ParentNode | null = node.parentNode;
+      node = parentNode instanceof ShadowRoot
+        ? parentNode.host as HTMLElement
+        : node.parentElement;
+    }
+
+    return null;
   }
 
   private warning(show: boolean, label: string) {

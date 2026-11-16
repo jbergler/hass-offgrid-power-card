@@ -2,8 +2,8 @@
 
 ## 0.2.2
 
-- Use compact landscape topology on phones while preserving the tall topology for narrow desktop and dedicated-touchscreen Sections cards.
-- Keep narrow wide-layout nodes inside their Sections column without overlap.
+- Use compact landscape topology when the Sections dashboard renders one section column.
+- Preserve the tall topology when it renders two or more section columns, independent of device user agent or viewport width.
 
 ## 0.2.1
 

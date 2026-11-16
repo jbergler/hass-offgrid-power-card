@@ -72,7 +72,7 @@ Solar and battery feed a central power bus; the battery connection reverses dire
 
 ## Display behavior
 
-- Phones use the compact landscape topology at every card width. Non-mobile browsers use the tall topology below 520 px and landscape topology at wider card widths.
+- In Sections dashboards, one rendered section column uses the compact landscape topology; two or more columns use the tall topology. Outside Sections dashboards, containers below 520 px remain tall.
 - Height follows card width for each topology and is capped against the viewport: 184–360 px wide and 360–640 px tall.
 - Solar power appears in the node heading, with daily yield on a full-width second row.
 - Power uses W below 1,000 W and kW at or above 1,000 W.
